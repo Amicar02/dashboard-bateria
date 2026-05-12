@@ -161,7 +161,11 @@ if df is not None:
     min_date = df['Datetime'].min().date()
     max_date = df['Datetime'].max().date()
     
-    selected_date = st.slider("Selecione um dia para analisar:", min_value=min_date, max_value=max_date, value=min_date)
+    default_date = pd.to_datetime(f"{min_date.year}-02-17").date()
+    if not (min_date <= default_date <= max_date):
+        default_date = min_date
+        
+    selected_date = st.slider("Selecione um dia para analisar:", min_value=min_date, max_value=max_date, value=default_date)
     
     df_day = df[df['Datetime'].dt.date == selected_date].copy()
     
